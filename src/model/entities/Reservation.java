@@ -40,9 +40,17 @@ public class Reservation {
 		return checkout.getDayOfMonth() - checkin.getDayOfMonth();
 	}
 	
-	public void updateDates(LocalDate checkin, LocalDate checkout) {
-		this.checkin = checkin; 
-		this.checkout = checkout;
+	public String updateDates(LocalDate checkIn, LocalDate checkOut) {
+		LocalDate now = LocalDate.now();
+		if (checkIn.isBefore(now) || checkOut.isBefore(now)) {
+			return "Reservation dates for update must be future dates";
+		}
+		if (!checkOut.isAfter(checkIn)) {
+			return "Check-out date must be after check-in date";
+		}
+		this.checkin = checkIn; 
+		this.checkout = checkOut;
+		return null;
 	}
 	
 	@Override
